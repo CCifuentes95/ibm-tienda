@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelUsuario" header="Usuario">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgId" value="Id"/>
+						 	<p:inputText id="txtId" binding="#{usuarioView.txtId}">
+						 		<p:ajax update="panelUsuario,msg,panelBotones" listener="#{usuarioView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgApellido" value=" Apellido"/>
+							<p:inputText id="txtApellido" disabled="true" binding="#{usuarioView.txtApellido}"/>
+													<h:outputText id="msgContrasena" value=" Contrasena"/>
+							<p:inputText id="txtContrasena" disabled="true" binding="#{usuarioView.txtContrasena}"/>
+													<h:outputText id="msgEmail" value=" Email"/>
+							<p:inputText id="txtEmail" disabled="true" binding="#{usuarioView.txtEmail}"/>
+													<h:outputText id="msgIdentificacion" value=" Identificacion"/>
+							<p:inputText id="txtIdentificacion" disabled="true" binding="#{usuarioView.txtIdentificacion}"/>
+													<h:outputText id="msgNombre" value=" Nombre"/>
+							<p:inputText id="txtNombre" disabled="true" binding="#{usuarioView.txtNombre}"/>
+													<h:outputText id="msgId_TipoIdentificacion" value=" Id_TipoIdentificacion"/>
+							<p:inputText id="txtId_TipoIdentificacion" disabled="true" binding="#{usuarioView.txtId_TipoIdentificacion}"/>
+												
+																				<h:outputText id="msgFechaNacimiento" value=" FechaNacimiento"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{usuarioView.txtFechaNacimiento}" >
+								<p:ajax event="dateSelect" listener="#{usuarioView.listener_txtFechaNacimiento}" />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{usuarioView.btnSave}" disabled="true" value="Save" action="#{usuarioView.action_save()}" update="panelUsuario,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{usuarioView.btnDelete}" disabled="true" value="Delete" action="#{usuarioView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelUsuario,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{usuarioView.action_clear()}" update="panelUsuario,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

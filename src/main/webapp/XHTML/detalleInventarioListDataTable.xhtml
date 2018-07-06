@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableDetalleInventario" header="DetalleInventarioData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{detalleInventarioView.data}" var="detalleInventario"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{detalleInventario.id}" sortBy="#{detalleInventario.id}" >
+										 <f:facet name="header">
+										<h:outputText value="id"/>
+										</f:facet>
+										 <h:outputText value="#{detalleInventario.id}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{detalleInventario.cantidad}" sortBy="#{detalleInventario.cantidad}" >
+										 <f:facet name="header">
+										<h:outputText value="Cantidad"/>
+										</f:facet>
+										 <h:outputText value="#{detalleInventario.cantidad}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detalleInventario.precioBase}" sortBy="#{detalleInventario.precioBase}" >
+										 <f:facet name="header">
+										<h:outputText value="PrecioBase"/>
+										</f:facet>
+										 <h:outputText value="#{detalleInventario.precioBase}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detalleInventario.id_Inventario}" sortBy="#{detalleInventario.id_Inventario}" >
+										 <f:facet name="header">
+										<h:outputText value="Id_Inventario"/>
+										</f:facet>
+										 <h:outputText value="#{detalleInventario.id_Inventario}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detalleInventario.id_Producto}" sortBy="#{detalleInventario.id_Producto}" >
+										 <f:facet name="header">
+										<h:outputText value="Id_Producto"/>
+										</f:facet>
+										 <h:outputText value="#{detalleInventario.id_Producto}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogDetalleInventario"
+										actionListener="#{detalleInventarioView.action_edit}">
+										<f:attribute name="selectedDetalleInventario" value="#{detalleInventario}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{detalleInventarioView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedDetalleInventario" value="#{detalleInventario}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{detalleInventarioView.action_new()}" update=":dialogDetalleInventario" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogDetalleInventario" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{detalleInventarioView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelDetalleInventario" header="DetalleInventario">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgId" value="Id"/>
+									 <p:inputText id="txtId" binding="#{detalleInventarioView.txtId}">
+									 <p:ajax update=":dialogDetalleInventario" listener="#{detalleInventarioView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgCantidad" value=" Cantidad"/>
+									<p:inputText id="txtCantidad" disabled="true" binding="#{detalleInventarioView.txtCantidad}"/>
+																		<h:outputText id="msgPrecioBase" value=" PrecioBase"/>
+									<p:inputText id="txtPrecioBase" disabled="true" binding="#{detalleInventarioView.txtPrecioBase}"/>
+																		<h:outputText id="msgId_Inventario" value=" Id_Inventario"/>
+									<p:inputText id="txtId_Inventario" disabled="true" binding="#{detalleInventarioView.txtId_Inventario}"/>
+																		<h:outputText id="msgId_Producto" value=" Id_Producto"/>
+									<p:inputText id="txtId_Producto" disabled="true" binding="#{detalleInventarioView.txtId_Producto}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{detalleInventarioView.btnSave}" value="Save" action="#{detalleInventarioView.action_save()}" update=":dialogDetalleInventario :frm:panelDataTableDetalleInventario" />
+									<p:commandButton id="btnClear" value="Clear" action="#{detalleInventarioView.action_clear()}" update=":dialogDetalleInventario" />
+									<p:commandButton id="btnExit" value="Exit" action="#{detalleInventarioView.action_closeDialog()}" update=":dialogDetalleInventario" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

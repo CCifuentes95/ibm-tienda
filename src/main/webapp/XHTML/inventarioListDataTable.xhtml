@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableInventario" header="InventarioData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{inventarioView.data}" var="inventario"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{inventario.id}" sortBy="#{inventario.id}" >
+										 <f:facet name="header">
+										<h:outputText value="id"/>
+										</f:facet>
+										 <h:outputText value="#{inventario.id}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{inventario.fechaCreacion}" sortBy="#{inventario.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{inventario.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{inventario.id_Empresa}" sortBy="#{inventario.id_Empresa}" >
+										 <f:facet name="header">
+										<h:outputText value="Id_Empresa"/>
+										</f:facet>
+										 <h:outputText value="#{inventario.id_Empresa}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogInventario"
+										actionListener="#{inventarioView.action_edit}">
+										<f:attribute name="selectedInventario" value="#{inventario}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{inventarioView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedInventario" value="#{inventario}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{inventarioView.action_new()}" update=":dialogInventario" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogInventario" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{inventarioView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelInventario" header="Inventario">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgId" value="Id"/>
+									 <p:inputText id="txtId" binding="#{inventarioView.txtId}">
+									 <p:ajax update=":dialogInventario" listener="#{inventarioView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgId_Empresa" value=" Id_Empresa"/>
+									<p:inputText id="txtId_Empresa" disabled="true" binding="#{inventarioView.txtId_Empresa}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{inventarioView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{inventarioView.listener_txtFechaCreacion}"  />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{inventarioView.btnSave}" value="Save" action="#{inventarioView.action_save()}" update=":dialogInventario :frm:panelDataTableInventario" />
+									<p:commandButton id="btnClear" value="Clear" action="#{inventarioView.action_clear()}" update=":dialogInventario" />
+									<p:commandButton id="btnExit" value="Exit" action="#{inventarioView.action_closeDialog()}" update=":dialogInventario" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

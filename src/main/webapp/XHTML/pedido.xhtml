@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelPedido" header="Pedido">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgId" value="Id"/>
+						 	<p:inputText id="txtId" binding="#{pedidoView.txtId}">
+						 		<p:ajax update="panelPedido,msg,panelBotones" listener="#{pedidoView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgCodigo" value=" Codigo"/>
+							<p:inputText id="txtCodigo" disabled="true" binding="#{pedidoView.txtCodigo}"/>
+													<h:outputText id="msgDireccion" value=" Direccion"/>
+							<p:inputText id="txtDireccion" disabled="true" binding="#{pedidoView.txtDireccion}"/>
+													<h:outputText id="msgTotal" value=" Total"/>
+							<p:inputText id="txtTotal" disabled="true" binding="#{pedidoView.txtTotal}"/>
+													<h:outputText id="msgId_Usuario" value=" Id_Usuario"/>
+							<p:inputText id="txtId_Usuario" disabled="true" binding="#{pedidoView.txtId_Usuario}"/>
+												
+																				<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{pedidoView.txtFechaCreacion}" >
+								<p:ajax event="dateSelect" listener="#{pedidoView.listener_txtFechaCreacion}" />
+							</p:calendar>
+														<h:outputText id="msgFechaPedido" value=" FechaPedido"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{pedidoView.txtFechaPedido}" >
+								<p:ajax event="dateSelect" listener="#{pedidoView.listener_txtFechaPedido}" />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{pedidoView.btnSave}" disabled="true" value="Save" action="#{pedidoView.action_save()}" update="panelPedido,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{pedidoView.btnDelete}" disabled="true" value="Delete" action="#{pedidoView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelPedido,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{pedidoView.action_clear()}" update="panelPedido,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

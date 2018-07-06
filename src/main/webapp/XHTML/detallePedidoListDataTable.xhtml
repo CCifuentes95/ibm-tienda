@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableDetallePedido" header="DetallePedidoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{detallePedidoView.data}" var="detallePedido"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{detallePedido.id}" sortBy="#{detallePedido.id}" >
+										 <f:facet name="header">
+										<h:outputText value="id"/>
+										</f:facet>
+										 <h:outputText value="#{detallePedido.id}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{detallePedido.cantidad}" sortBy="#{detallePedido.cantidad}" >
+										 <f:facet name="header">
+										<h:outputText value="Cantidad"/>
+										</f:facet>
+										 <h:outputText value="#{detallePedido.cantidad}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detallePedido.precio}" sortBy="#{detallePedido.precio}" >
+										 <f:facet name="header">
+										<h:outputText value="Precio"/>
+										</f:facet>
+										 <h:outputText value="#{detallePedido.precio}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detallePedido.id_Pedido}" sortBy="#{detallePedido.id_Pedido}" >
+										 <f:facet name="header">
+										<h:outputText value="Id_Pedido"/>
+										</f:facet>
+										 <h:outputText value="#{detallePedido.id_Pedido}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{detallePedido.id_Producto}" sortBy="#{detallePedido.id_Producto}" >
+										 <f:facet name="header">
+										<h:outputText value="Id_Producto"/>
+										</f:facet>
+										 <h:outputText value="#{detallePedido.id_Producto}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogDetallePedido"
+										actionListener="#{detallePedidoView.action_edit}">
+										<f:attribute name="selectedDetallePedido" value="#{detallePedido}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{detallePedidoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedDetallePedido" value="#{detallePedido}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{detallePedidoView.action_new()}" update=":dialogDetallePedido" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogDetallePedido" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{detallePedidoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelDetallePedido" header="DetallePedido">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgId" value="Id"/>
+									 <p:inputText id="txtId" binding="#{detallePedidoView.txtId}">
+									 <p:ajax update=":dialogDetallePedido" listener="#{detallePedidoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgCantidad" value=" Cantidad"/>
+									<p:inputText id="txtCantidad" disabled="true" binding="#{detallePedidoView.txtCantidad}"/>
+																		<h:outputText id="msgPrecio" value=" Precio"/>
+									<p:inputText id="txtPrecio" disabled="true" binding="#{detallePedidoView.txtPrecio}"/>
+																		<h:outputText id="msgId_Pedido" value=" Id_Pedido"/>
+									<p:inputText id="txtId_Pedido" disabled="true" binding="#{detallePedidoView.txtId_Pedido}"/>
+																		<h:outputText id="msgId_Producto" value=" Id_Producto"/>
+									<p:inputText id="txtId_Producto" disabled="true" binding="#{detallePedidoView.txtId_Producto}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{detallePedidoView.btnSave}" value="Save" action="#{detallePedidoView.action_save()}" update=":dialogDetallePedido :frm:panelDataTableDetallePedido" />
+									<p:commandButton id="btnClear" value="Clear" action="#{detallePedidoView.action_clear()}" update=":dialogDetallePedido" />
+									<p:commandButton id="btnExit" value="Exit" action="#{detallePedidoView.action_closeDialog()}" update=":dialogDetallePedido" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

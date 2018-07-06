@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoProducto" header="TipoProductoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoProductoView.data}" var="tipoProducto"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoProducto.id}" sortBy="#{tipoProducto.id}" >
+										 <f:facet name="header">
+										<h:outputText value="id"/>
+										</f:facet>
+										 <h:outputText value="#{tipoProducto.id}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoProducto.codigo}" sortBy="#{tipoProducto.codigo}" >
+										 <f:facet name="header">
+										<h:outputText value="Codigo"/>
+										</f:facet>
+										 <h:outputText value="#{tipoProducto.codigo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoProducto.nombre}" sortBy="#{tipoProducto.nombre}" >
+										 <f:facet name="header">
+										<h:outputText value="Nombre"/>
+										</f:facet>
+										 <h:outputText value="#{tipoProducto.nombre}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoProducto"
+										actionListener="#{tipoProductoView.action_edit}">
+										<f:attribute name="selectedTipoProducto" value="#{tipoProducto}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoProductoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoProducto" value="#{tipoProducto}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoProductoView.action_new()}" update=":dialogTipoProducto" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoProducto" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoProductoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoProducto" header="TipoProducto">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgId" value="Id"/>
+									 <p:inputText id="txtId" binding="#{tipoProductoView.txtId}">
+									 <p:ajax update=":dialogTipoProducto" listener="#{tipoProductoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgCodigo" value=" Codigo"/>
+									<p:inputText id="txtCodigo" disabled="true" binding="#{tipoProductoView.txtCodigo}"/>
+																		<h:outputText id="msgNombre" value=" Nombre"/>
+									<p:inputText id="txtNombre" disabled="true" binding="#{tipoProductoView.txtNombre}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoProductoView.btnSave}" value="Save" action="#{tipoProductoView.action_save()}" update=":dialogTipoProducto :frm:panelDataTableTipoProducto" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoProductoView.action_clear()}" update=":dialogTipoProducto" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoProductoView.action_closeDialog()}" update=":dialogTipoProducto" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

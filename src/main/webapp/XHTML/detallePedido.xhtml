@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelDetallePedido" header="DetallePedido">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgId" value="Id"/>
+						 	<p:inputText id="txtId" binding="#{detallePedidoView.txtId}">
+						 		<p:ajax update="panelDetallePedido,msg,panelBotones" listener="#{detallePedidoView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgCantidad" value=" Cantidad"/>
+							<p:inputText id="txtCantidad" disabled="true" binding="#{detallePedidoView.txtCantidad}"/>
+													<h:outputText id="msgPrecio" value=" Precio"/>
+							<p:inputText id="txtPrecio" disabled="true" binding="#{detallePedidoView.txtPrecio}"/>
+													<h:outputText id="msgId_Pedido" value=" Id_Pedido"/>
+							<p:inputText id="txtId_Pedido" disabled="true" binding="#{detallePedidoView.txtId_Pedido}"/>
+													<h:outputText id="msgId_Producto" value=" Id_Producto"/>
+							<p:inputText id="txtId_Producto" disabled="true" binding="#{detallePedidoView.txtId_Producto}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{detallePedidoView.btnSave}" disabled="true" value="Save" action="#{detallePedidoView.action_save()}" update="panelDetallePedido,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{detallePedidoView.btnDelete}" disabled="true" value="Delete" action="#{detallePedidoView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelDetallePedido,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{detallePedidoView.action_clear()}" update="panelDetallePedido,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>
